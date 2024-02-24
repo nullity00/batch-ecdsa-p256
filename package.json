@@ -1,0 +1,16 @@
+{
+  "name": "batch-ecdsa-p256",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:nullity00/batch-ecdsa-p-256.git",
+  "author": "nullity00 <00nullity@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "big-integer": "^1.6.52",
+    "chai": "^5.1.0",
+    "circom_tester": "^0.0.20",
+    "circomlib": "^2.0.5",
+    "mocha": "^10.3.0",
+    "snarkjs": "^0.7.3"
+  }
+}
