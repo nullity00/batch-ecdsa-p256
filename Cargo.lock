@@ -55,33 +55,9 @@ version = "0.1.0"
 dependencies = [
  "ff",
  "nova-scotia",
- "nova-snark 0.35.0",
+ "nova-snark",
  "serde",
  "serde_json",
-]
-
-[[package]]
-name = "bellpepper"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9ae286c2cb403324ab644c7cc68dceb25fe52ca9429908a726d7ed272c1edf7b"
-dependencies = [
- "bellpepper-core",
- "byteorder",
- "ff",
-]
-
-[[package]]
-name = "bellpepper-core"
-version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d8abb418570756396d722841b19edfec21d4e89e1cf8990610663040ecb1aea"
-dependencies = [
- "blake2s_simd 1.0.2",
- "byteorder",
- "ff",
- "serde",
- "thiserror",
 ]
 
 [[package]]
@@ -532,31 +508,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "halo2curves"
-version = "0.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db81d01d0bbfec9f624d7590fc6929ee2537a64ec1e080d8f8c9e2d2da291405"
-dependencies = [
- "blake2b_simd",
- "ff",
- "group",
- "hex",
- "lazy_static",
- "num-bigint 0.4.4",
- "num-traits",
- "pairing",
- "pasta_curves",
- "paste",
- "rand",
- "rand_core",
- "rayon",
- "serde",
- "serde_arrays",
- "static_assertions",
- "subtle",
-]
-
-[[package]]
 name = "hermit-abi"
 version = "0.3.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -609,15 +560,6 @@ name = "itertools"
 version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1c173a5686ce8bfa551b3563d0c2170bf24ca44da99c7ca4bfdab5418c3fe57"
-dependencies = [
- "either",
-]
-
-[[package]]
-name = "itertools"
-version = "0.12.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
 dependencies = [
  "either",
 ]
@@ -721,25 +663,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "neptune"
-version = "13.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "06626c9ac04c894e9a23d061ba1309f28506cdc5fe64156d28a15fb57fc8e438"
-dependencies = [
- "bellpepper",
- "bellpepper-core",
- "blake2s_simd 1.0.2",
- "blstrs",
- "byteorder",
- "ff",
- "generic-array 0.14.7",
- "log",
- "pasta_curves",
- "serde",
- "trait-set",
-]
-
-[[package]]
 name = "nova-scotia"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -752,7 +675,7 @@ dependencies = [
  "hex-literal",
  "itertools 0.9.0",
  "js-sys",
- "nova-snark 0.23.0",
+ "nova-snark",
  "num-bigint 0.4.4",
  "num-traits",
  "pasta_curves",
@@ -779,46 +702,12 @@ dependencies = [
  "flate2",
  "generic-array 0.14.7",
  "getrandom",
- "halo2curves 0.1.0",
+ "halo2curves",
  "itertools 0.11.0",
- "neptune 10.0.0",
+ "neptune",
  "num-bigint 0.4.4",
  "num-integer",
  "num-traits",
- "pasta-msm",
- "pasta_curves",
- "rand_chacha",
- "rand_core",
- "rayon",
- "serde",
- "sha3",
- "subtle",
- "thiserror",
-]
-
-[[package]]
-name = "nova-snark"
-version = "0.35.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "39bc918340c90ebef9a7433ad60facd29831d1b2d3070e34d0f83cdc6728d193"
-dependencies = [
- "bellpepper",
- "bellpepper-core",
- "bincode",
- "bitvec",
- "byteorder",
- "digest",
- "ff",
- "generic-array 1.0.0",
- "getrandom",
- "group",
- "halo2curves 0.6.1",
- "itertools 0.12.1",
- "neptune 13.0.0",
- "num-bigint 0.4.4",
- "num-integer",
- "num-traits",
- "once_cell",
  "pasta-msm",
  "pasta_curves",
  "rand_chacha",
