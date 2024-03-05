@@ -28,3 +28,7 @@ coverage
 node_modules
 circuits/ptau18.ptau
 circuits/ptau20.ptau
+
+# Added by cargo
+
+/target
