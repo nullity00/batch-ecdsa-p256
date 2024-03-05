@@ -1,10 +1,10 @@
 use std::{collections::HashMap, env::current_dir, time::{Instant, Duration}};
 
 use nova_scotia::{
-    circom::reader::load_r1cs, create_public_params, create_recursive_circuit, FileLocation, C1, C2,F 
+    circom::reader::load_r1cs, create_public_params, create_recursive_circuit, FileLocation, C1, C2, F 
 };
 use ff::PrimeField;
-use nova_snark::{self, traits::Group};
+use nova_snark::{provider, PublicParams};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 
@@ -15,21 +15,24 @@ struct EffSig {
     signatures: Vec<[String; 7]>,
 }
 
+pub type G1 = provider::bn256_grumpkin::bn256::Point;
+pub type G2 = provider::bn256_grumpkin::grumpkin::Point;
+pub type Params = PublicParams<G1, G2, C1<G1>, C2<G2>>;
 
 fn run(per_iteration_count: usize, r1cs_path: String, wasm_path: String) -> (Duration, Duration) {
 
     let root = current_dir().unwrap();
     let circuit_file = root.join(r1cs_path);
-    let r1cs = load_r1cs(&FileLocation::PathBuf(circuit_file));
+    let r1cs = load_r1cs::<G1, G2>(&FileLocation::PathBuf(circuit_file));
     let witness_generator_wasm = root.join(wasm_path);
     let sigs: EffSig = serde_json::from_str(include_str!("data/batch.json"))
     .unwrap();
     let start_public_input = vec![
-        F::from_str_vartime(&sigs.start_pub_input[0]).unwrap(),
-        F::from_str_vartime(&sigs.start_pub_input[1]).unwrap(),
-        F::from_str_vartime(&sigs.start_pub_input[2]).unwrap(),
-        F::from_str_vartime(&sigs.start_pub_input[3]).unwrap(),
-        F::from_str_vartime(&sigs.start_pub_input[4]).unwrap(),
+        F::<G1>::from_str_vartime(&sigs.start_pub_input[0]).unwrap(),
+        F::<G1>::from_str_vartime(&sigs.start_pub_input[1]).unwrap(),
+        F::<G1>::from_str_vartime(&sigs.start_pub_input[2]).unwrap(),
+        F::<G1>::from_str_vartime(&sigs.start_pub_input[3]).unwrap(),
+        F::<G1>::from_str_vartime(&sigs.start_pub_input[4]).unwrap(),
     ];
 
     let mut private_inputs = Vec::new();
@@ -47,10 +50,10 @@ fn run(per_iteration_count: usize, r1cs_path: String, wasm_path: String) -> (Dur
         );
         private_inputs.push(private_input);
     }
-    let pp = create_public_params(r1cs.clone());
+    let pp = create_public_params::<G1, G2>(r1cs.clone());
     println!("Creating a RecursiveSNARK...");
     let start = Instant::now();
-    let recursive_snark = create_recursive_circuit(
+    let recursive_snark = create_recursive_circuit::<G1, G2>(
         FileLocation::PathBuf(witness_generator_wasm),
         r1cs,
         private_inputs,
@@ -61,7 +64,7 @@ fn run(per_iteration_count: usize, r1cs_path: String, wasm_path: String) -> (Dur
     let prover_time = start.elapsed();
     println!("RecursiveSNARK creation took {:?}", start.elapsed());
 
-    let z0_secondary = vec![0];
+    let z0_secondary = vec![F::<G2>::zero()];
 
     // verify the recursive SNARK
     println!("Verifying a RecursiveSNARK...");
