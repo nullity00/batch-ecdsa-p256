@@ -10,7 +10,7 @@ template BatchECDSA(n, k, N_SIGS){
 
   component sigsChecker[N_SIGS];
 
-  component sigsChecker[0] = ECDSAVerifyNoPubkeyCheck(43,6);
+  sigsChecker[0] = ECDSAVerifyNoPubkeyCheck(43,6);
 
   sigsChecker[0].r <== step_in[0];
   sigsChecker[0].s <== step_in[1];
@@ -19,6 +19,7 @@ template BatchECDSA(n, k, N_SIGS){
   sigsChecker[0].pubkey[1] <== step_in[4];
 
   for (var i = 1; i < N_SIGS; i++) {
+    sigsChecker[i] = ECDSAVerifyNoPubkeyCheck(43,6);
     sigsChecker[i].r <== signatures[i-1][0];
     sigsChecker[i].s <== signatures[i-1][1];
     sigsChecker[i].msghash <== signatures[i-1][2];
