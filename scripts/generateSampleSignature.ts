@@ -3,6 +3,13 @@ import { SignatureType } from '@noble/curves/abstract/weierstrass';
 import crypto from "crypto";
 import fs from "fs";
 
+
+// This is a hack to make BigInt serializable to JSON
+// https://github.com/GoogleChromeLabs/jsbi/issues/30#issuecomment-1006086291
+(BigInt.prototype as any).toJSON = function () {
+    return this.toString();
+};
+
 function bigint_to_array(n: number, k: number, x: bigint) {
     let mod: bigint = 1n;
     for (var idx = 0; idx < n; idx++) {
@@ -42,11 +49,11 @@ const main = () => {
         const msgArray = bigint_to_array(43, 6, BigInt('0x' + msg.toString('hex')));
 
         const input = [
-            r_array.toString(),
-            s_array.toString(),
-            msgArray.toString(),
-            pub0array.toString(),
-            pub1array.toString()
+            ...r_array,
+            ...s_array,
+            ...msgArray,
+            ...pub0array,
+            ...pub1array
         ];
 
         inputs.push(input);
@@ -57,11 +64,9 @@ const main = () => {
         "signatures": inputs.slice(1, inputs.length),
     };
 
-    // console.log(fileOutput);
-
     fs.writeFileSync(
-        "src/data/batch.json",
-        JSON.stringify(fileOutput)
+        "scripts/ecdsa_sig_batch_sample.json",
+        JSON.stringify(fileOutput as any)
     );
 };
 
