@@ -42,11 +42,11 @@ const main = () => {
         const msgArray = bigint_to_array(43, 6, BigInt('0x' + msg.toString('hex')));
 
         const input = [
-            r_array,
-            s_array,
-            msgArray,
-            pub0array,
-            pub1array
+            r_array.toString(),
+            s_array.toString(),
+            msgArray.toString(),
+            pub0array.toString(),
+            pub1array.toString()
         ];
 
         inputs.push(input);
@@ -57,8 +57,10 @@ const main = () => {
         "signatures": inputs.slice(1, inputs.length),
     };
 
+    // console.log(fileOutput);
+
     fs.writeFileSync(
-        "scripts/sig_ecdsa_batch_sample.json",
+        "src/data/batch.json",
         JSON.stringify(fileOutput)
     );
 };
