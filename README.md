@@ -19,10 +19,10 @@ Due to P256 curve having no cycles, and the nature of Ethereum precompiles, we u
 
 Make sure you have the following dependencies pre-installed
 
-- circom
-- yarn
-- ts-node
-- cargo
+- [circom](https://docs.circom.io/getting-started/installation/)
+- [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
+- [ts-node](https://www.npmjs.com/package/ts-node#installation)
+- [cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 
 ## Installing dependencies
 
@@ -71,3 +71,35 @@ ts-node scripts/generateSampleSignature.ts
 
 5. Now to generate & verify a recursive proof, simply do ``cargo run``
 
+## Circuits Description
+
+The signature aggregator circuit is implemented in `circuits/batch_ecdsa.circom`.
+
+- The circuit takes in a public input `step_in`, auxillary input `signatures` and output `step_out` in accordance with Nova-Scotia's syntax. 
+```javascript
+  signal input step_in[m];
+  signal input signatures[N_SIGS][m];
+  signal output step_out[m];
+```
+- The 256-bits input is chunked and represented as `k` `n`-bits values where `k` is `6` and `n` is `43`. The `ECDSAVerifyNoPubkeyCheck(n,k)` circuit takes in four inputs - `r`, `s`, `msghash`, `pubkey[2]` of which all the inputs are `43`-bit arrays.
+- Since Nova-Scotia (and Nova) does not support folding in 2D arrays, the inputs are represented  as 1D arrays of length `5*k` = `5*6` = `30`. 
+- The `step_in` & `signatures` are then trandformed into 2D arrays to input values in the `ECDSAVerifyNoPubkeyCheck(n,k)` circuit
+
+## Benchmarks
+
+All benchmarks were run on an 
+
+|                                      | verify 10 | verify 100 | verify 300 | verify  |
+| ------------------------------------ | --------- | -------- | -------- | ------- |
+| Constraints                          | ?    | ?   | ?   | ? |
+| Loading r1cs                         | ?       | ?      | ?      | ?     |
+| Public parameter generation          | ?      | ?     | ?     | ?    |
+| Proving time                         | ?        | ?       | ?       | ?      |
+| Proof verification time              | ?       | ?      | ?       | ?      |
+
+## Testing
+
+## Acknowledgements
+
+- The circuit uses [circom-ecdsa-p256](https://github.com/privacy-scaling-explorations/circom-ecdsa-p256) as submodule.
+- The inspiration for this project is taken from [nova-browser-ecdsa](https://github.com/dmpierre/nova-browser-ecdsa)
