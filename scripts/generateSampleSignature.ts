@@ -30,7 +30,7 @@ const main = () => {
     * This is a script for generating sample signatures for the sig_ecdsa circuits.
     * Useful for generating batches of random signatures when needed.
     */
-    const numSignatures = 10;
+    const numSignatures = 301; // Always do 10n + 1 signatures
     const privKey: bigint = 88549154299169935420064281163296845505587953610183896504176354567359434168161n;
     const pubKey = p256.ProjectivePoint.fromPrivateKey(privKey);
     const inputs: any[] = [];
@@ -64,8 +64,13 @@ const main = () => {
         "signatures": inputs.slice(1, inputs.length),
     };
 
+    // fs.writeFileSync(
+    //     "scripts/ecdsa_sig_batch_sample.json", 
+    //     JSON.stringify(fileOutput as any)
+    // );
+
     fs.writeFileSync(
-        "scripts/ecdsa_sig_batch_sample.json",
+        "src/data/batch.json", 
         JSON.stringify(fileOutput as any)
     );
 };
