@@ -24,6 +24,7 @@ template BatchECDSA(n, k, N_SIGS){
   sigsChecker[0].msghash <== step_2D_in[2];
   sigsChecker[0].pubkey[0] <== step_2D_in[3];
   sigsChecker[0].pubkey[1] <== step_2D_in[4];
+  sigsChecker[0].result === 1;
 
   signal signatures_3D[N_SIGS-1][5][k];
   for (var i = 1; i < N_SIGS; i++) {
@@ -41,6 +42,7 @@ template BatchECDSA(n, k, N_SIGS){
     sigsChecker[i].msghash <== signatures_3D[i-1][2];
     sigsChecker[i].pubkey[0] <== signatures_3D[i-1][3];
     sigsChecker[i].pubkey[1] <== signatures_3D[i-1][4];
+    sigsChecker[i].result === 1;
   }
 
   for (var i = 0; i < m; i++) {
