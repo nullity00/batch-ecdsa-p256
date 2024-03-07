@@ -1,4 +1,0 @@
-
-[submodule "circuits/circom-ecdsa-p256"]
-	path = circuits/circom-ecdsa-p256
-	url = https://github.com/privacy-scaling-explorations/circom-ecdsa-p256
