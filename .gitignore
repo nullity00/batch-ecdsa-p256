@@ -26,11 +26,10 @@ coverage
 .nyc_output
 
 node_modules
-circom_artifacts/batch_ecdsa_js/batch_ecdsa.wasm
-circom_artifacts/batch_ecdsa.r1cs
-circom_artifacts/batch_ecdsa.sym
-src/data/batch_ecdsa.r1cs
-src/data/batch_ecdsa.wasm
+batch_ecdsa_js
+*.sym
+*.r1cs
+*.wasm
 
 # Added by cargo
 
